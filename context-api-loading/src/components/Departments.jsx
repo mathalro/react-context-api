@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
  
 import { getDepartments } from '../services/api';
-import Loading from './Loading';
+import useLoading from '../store/state/loading-provider';
 
 const Departments = () => {
-    const [isLoading, setIsLoading] = useState(false);
+
+    const loading = useLoading();
 
     const getDepartmentsAsync = async () => {
-        setIsLoading(true);
+        loading.showLoading('Carregando departamentos');
         const response = await getDepartments().then(response => {
-            setIsLoading(false);
+            loading.hideLoading();
             return response;
         });
         console.log({ response });
@@ -18,7 +19,6 @@ const Departments = () => {
     return (
         <>
             <button onClick={getDepartmentsAsync}>Buscar departamentos</button>
-            <Loading loading={isLoading} message='Carregando departamentos...' />
         </>
     );
 }

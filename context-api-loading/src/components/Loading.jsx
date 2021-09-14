@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import Spinner from 'react-spinkit';
+import useLoading from '../store/state/loading-provider';
 
-const Loading = ({ loading, message }) => {
+const Loading = () => {
+    const { loading } = useLoading();
+
     return (
         loading ? (
             <div className='overlay-content'>
@@ -13,7 +16,7 @@ const Loading = ({ loading, message }) => {
                         color='yellow'
                     />
                     <span className='message'>
-                        {message}
+                        {loading.message}
                     </span>
                 </div>
             </div>) : null

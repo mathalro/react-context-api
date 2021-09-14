@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
  
 import { getUsers } from '../services/api';
-import Loading from './Loading';
+import useLoading from '../store/state/loading-provider';
 
 const Users = () => {
-
-    const [isLoading, setIsLoading] = useState(false);
+    const loading = useLoading();
 
     const getUsersAsync = async () => {
-        setIsLoading(true);
+        loading.showLoading('Carregando usuários');
         const response = await getUsers().then(response => {
-            setIsLoading(false);
+            loading.hideLoading();
             return response;
         });
         console.log({ response });
@@ -19,7 +18,6 @@ const Users = () => {
     return (
         <>
             <button onClick={getUsersAsync}>Buscar usuários</button>
-            <Loading loading={isLoading} message='Carregando usuários...' />
         </>
     );
 }
